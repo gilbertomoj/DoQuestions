@@ -14,8 +14,12 @@ app.get("/",(req, res)=>{
    
     res.render("index");
 
+});
+
+app.get('/perguntar',(req, res)=>{
+    res.render("perguntar");
 })
 
 app.listen(8080,()=>{
-    console.log("App rodando")
+    console.log("Aplicativo está rodando")
 })
