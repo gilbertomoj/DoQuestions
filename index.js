@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");//Responsável por traduzir os dados recebidos do front(formulario) num modelo utilizavel no backend(server)
 const connection = require('./database/database');
-const PerguntaModel = require('./database/Pergunta')
+const Pergunta = require('./database/Pergunta')
 //Database
 connection.authenticate().then(()=>{
     console.log('Conexão realizada com sucesso')
@@ -28,7 +28,12 @@ app.get("/perguntar",(req, res)=>{
 app.post("/salvarpergunta", (req, res)=>{
     var titulo = req.body.titulo;
     var descricao = req.body.descricao;
-    res.send('Formulario foi recebido! Titulo : '+titulo+" Descrição : "+descricao)
+    Pergunta.create({
+        titulo: titulo,
+        descricao: descricao
+    }).then(()=>{
+        res.redirect("/");
+    });
 })
 
 app.listen(8080,()=>{
