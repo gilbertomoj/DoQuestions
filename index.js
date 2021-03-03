@@ -19,7 +19,14 @@ app.use(bodyParser.json());//Ler dados enviados como JSON
 //Rotas
 app.get("/",(req, res)=>{
    
-    res.render("index");
+    //SELECT * FROM  perguntas
+    Pergunta.findAll({raw: true}).then(
+        perguntas=>{
+            res.render("index",{
+                perguntas
+            });
+        }
+    )
 
 });
 app.get("/perguntar",(req, res)=>{
@@ -29,8 +36,8 @@ app.post("/salvarpergunta", (req, res)=>{
     var titulo = req.body.titulo;
     var descricao = req.body.descricao;
     Pergunta.create({
-        titulo: titulo,
-        descricao: descricao
+        titulo,
+        descricao
     }).then(()=>{
         res.redirect("/");
     });
