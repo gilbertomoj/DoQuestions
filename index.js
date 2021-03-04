@@ -50,15 +50,42 @@ app.post("/salvarpergunta", (req, res)=>{
 app.get('/pergunta/:id', (req, res)=>{
     var id = req.params.id;
     Pergunta.findOne({
-        where: {id}
+        where: {id},
+        
     }).then(pergunta =>{
         if (pergunta != undefined) {
-            res.render("pergunta",{pergunta})
+
+            Resposta.findAll({
+                where: {
+                    perguntaId : pergunta.id,
+                    
+                },
+                order: [
+                    ['id','DESC']//Comando para organizar a View >> ASC - Crescente || DESC - Decrescente 
+                ]
+            }).then(respostas =>{
+                res.render("pergunta",{
+                    pergunta,
+                    respostas
+                })
+            })
         }else{
             res.redirect("/")
         }
     })
 })
+
+app.post("/responder",(req, res)=>{
+    var corpo = req.body.corpo;
+    var perguntaId = req.body.pergunta;
+    Resposta.create({
+        corpo,
+        perguntaId
+    }).then(()=>{
+        res.redirect("/pergunta/"+perguntaId)
+    });
+
+});
 
 app.listen(8080,()=>{
     console.log("Aplicativo está rodando")
