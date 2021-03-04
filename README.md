@@ -3,14 +3,17 @@
  Plataforma de perguntas e respostas baseado nos sites ASKfm e Yahoo 
 
 
-## :hammer_and_wrench:	Tecnologias 
+## :hammer_and_wrench: Tecnologias 
 - [Sequelize](https://sequelize.org/)
 - [Express](https://expressjs.com/pt-br/)
 - [Node.js](https://nodejs.org/en/)
 - [EJS](https://ejs.co/)
 - [MySQL](https://www.mysql.com/)
 
-## Requisitos
+## :jigsaw: Requisitos
+- NodeJS instalado em maquina 
+- MySQL instalado e configurado juntamente com o banco
+
 
 ## :arrow_heading_down: Comandos 
 ```sh
