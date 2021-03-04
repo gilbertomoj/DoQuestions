@@ -3,6 +3,8 @@ const app = express();
 const bodyParser = require("body-parser");//Responsável por traduzir os dados recebidos do front(formulario) num modelo utilizavel no backend(server)
 const connection = require('./database/database');
 const Pergunta = require('./database/Pergunta')
+const Resposta = require('./database/Resposta')
+
 //Database
 connection.authenticate().then(()=>{
     console.log('Conexão realizada com sucesso')
@@ -20,7 +22,9 @@ app.use(bodyParser.json());//Ler dados enviados como JSON
 app.get("/",(req, res)=>{
    
     //SELECT * FROM  perguntas
-    Pergunta.findAll({raw: true}).then(
+    Pergunta.findAll({raw: true, order: [
+        ['id','DESC']//Comando para organizar a View >> ASC - Crescente || DESC - Decrescente 
+    ]}).then(
         perguntas=>{
             res.render("index",{
                 perguntas
@@ -41,6 +45,19 @@ app.post("/salvarpergunta", (req, res)=>{
     }).then(()=>{
         res.redirect("/");
     });
+})
+
+app.get('/pergunta/:id', (req, res)=>{
+    var id = req.params.id;
+    Pergunta.findOne({
+        where: {id}
+    }).then(pergunta =>{
+        if (pergunta != undefined) {
+            res.render("pergunta",{pergunta})
+        }else{
+            res.redirect("/")
+        }
+    })
 })
 
 app.listen(8080,()=>{
